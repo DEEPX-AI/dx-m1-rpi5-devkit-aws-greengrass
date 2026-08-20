@@ -23,6 +23,8 @@ The DX-M1 AI Accelerator Development Kit pairs a Raspberry Pi 5 (8 GB) host with
 
 Running Raspberry Pi OS (64-bit, Debian 13 "Trixie", aarch64), the kit hosts the AWS IoT Greengrass Core software (classic nucleus), enabling local execution of Greengrass components, Docker application components, messaging, and secure communication with the AWS Cloud.
 
+![DEEPX DX-M1 Edge AI Development Kit with Raspberry Pi 5](images/kit-hero.jpg)
+
 ## Hardware Description
 
 ### Datasheet
@@ -83,6 +85,14 @@ No device-specific IDE is required to run AWS IoT Greengrass. You will need:
 5. Connect an Ethernet cable to the Raspberry Pi 5 LAN port.
 6. (Initial setup) Connect a monitor via micro-HDMI and a USB keyboard, or plan to use SSH.
 7. Connect the official 27 W USB-C power supply to boot.
+
+Assembled kit (top view — DX-M1 module on the M.2 base HAT over the Raspberry Pi 5):
+
+![Assembled kit, top view](images/kit-top.jpg)
+
+Side view (layered stack; Raspberry Pi 5 I/O accessible along the lower edge):
+
+![Assembled kit, side view](images/kit-side.jpg)
 
 ### Flash Raspberry Pi OS
 
