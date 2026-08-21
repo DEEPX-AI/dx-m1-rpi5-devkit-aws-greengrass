@@ -1,6 +1,6 @@
-# DX-M1 AI Accelerator Development Kit for Raspberry Pi 5 — Getting Started Guide for AWS IoT Greengrass
+# DEEPX DX-M1 Edge AI Development Kit with Raspberry Pi 5 — Getting Started Guide for AWS IoT Greengrass
 
-This guide walks you through setting up AWS IoT Greengrass V2 on the DEEPX DX-M1 AI Accelerator Development Kit for Raspberry Pi 5 and verifying that the device communicates with AWS IoT services, from assembly to deploying your first Greengrass component.
+This guide walks you through setting up AWS IoT Greengrass V2 on the DEEPX DX-M1 Edge AI Development Kit with Raspberry Pi 5 and verifying that the device communicates with AWS IoT services, from assembly to deploying your first Greengrass component.
 
 ## Document Information
 
@@ -19,7 +19,7 @@ This guide walks you through setting up AWS IoT Greengrass V2 on the DEEPX DX-M1
 
 ## Overview
 
-The DX-M1 AI Accelerator Development Kit pairs a Raspberry Pi 5 (8 GB) host with the DEEPX DX-M1 AI accelerator (M.2 module) on an M.2 base HAT, delivering up to 25 TOPS of neural inference at 1–5 W of accelerator power. It is intended for developers building and evaluating edge AI vision projects that combine local NPU-accelerated inference with cloud connectivity through AWS IoT Greengrass.
+The DEEPX DX-M1 Edge AI Development Kit with Raspberry Pi 5 pairs a Raspberry Pi 5 (8 GB) host with the DEEPX DX-M1 AI accelerator (M.2 module) on an M.2 base HAT, delivering up to 25 TOPS of neural inference at 1–5 W of accelerator power. It is intended for developers building and evaluating edge AI vision projects that combine local NPU-accelerated inference with cloud connectivity through AWS IoT Greengrass.
 
 Running Raspberry Pi OS (64-bit, Debian 13 "Trixie", aarch64), the kit hosts the AWS IoT Greengrass Core software (classic nucleus), enabling local execution of Greengrass components, Docker application components, messaging, and secure communication with the AWS Cloud.
 
@@ -35,9 +35,11 @@ Running Raspberry Pi OS (64-bit, Debian 13 "Trixie", aarch64), the kit hosts the
 ### Standard kit contents
 
 - 1x Raspberry Pi 5 (8 GB RAM)
-- 1x DEEPX DX-M1 AI accelerator (M.2 2242/2280 module)
-- 1x M.2 base HAT (PCIe carrier for the DX-M1 module)
-- Assembly hardware
+- 1x DEEPX DX-M1 AI accelerator (M.2 2280 M-Key module)
+- 1x MAKEROBO M.2 HAT for Raspberry Pi 5 (PCIe-to-M.2 carrier, model CLBPCIEPI5_9), with standoffs, screws, and PCIe FPC cable
+- 1x Active cooler for the Raspberry Pi 5
+- 1x USB power adapter
+- 1x microSD card (for OS and project storage) with USB card reader
 - Reference materials: DX-AllSuite guide (GitHub), assembly guide (PDF), Raspberry Pi 5 user guide (PDF)
 
 ### Key specifications
@@ -45,10 +47,10 @@ Running Raspberry Pi OS (64-bit, Debian 13 "Trixie", aarch64), the kit hosts the
 | Item | Specification |
 |---|---|
 | Host board | Raspberry Pi 5 (Broadcom BCM2712, quad-core Arm Cortex-A76 @ 2.4 GHz, aarch64) |
-| AI Accelerator | DEEPX DX-M1 (M.2 module), 25 TOPS INT8, 4 GB LPDDR5, max 5 W |
+| AI Accelerator | DEEPX DX-M1 (M.2 2280 M-Key), 25 TOPS INT8, 4 GB LPDDR5 (5600 MT/s), 1–5 W |
 | Memory | 8 GB LPDDR4X (host) |
-| Storage | microSD (user-provided) or NVMe via M.2 (configuration-dependent) |
-| Accelerator interface | PCIe Gen3 x1 via M.2 base HAT |
+| Storage | microSD card (included) |
+| Accelerator interface | PCIe Gen 3 via MAKEROBO M.2 HAT (DX-M1 supports Gen 1/2/3, x1/x2/x4) |
 | Networking | 1x GbE LAN (RJ45) |
 | USB | 2x USB 3.0, 2x USB 2.0 |
 | Display | 2x micro-HDMI |
@@ -56,16 +58,15 @@ Running Raspberry Pi OS (64-bit, Debian 13 "Trixie", aarch64), the kit hosts the
 
 ### User provided items
 
-- microSD card (32 GB or larger) for Raspberry Pi OS, or an NVMe SSD
-- Official Raspberry Pi 5 power supply (27 W USB-C PD recommended)
-- Active cooling for the Raspberry Pi 5 (recommended)
 - Ethernet cable for internet connectivity
 - USB keyboard/mouse and a monitor with micro-HDMI for initial setup (or use SSH over the network)
 - A host computer for remote access
 
+> The kit already includes the microSD card, active cooler, USB power adapter, and the MAKEROBO M.2 HAT with mounting hardware, so no additional accelerator carrier, storage, cooling, or power accessory is required.
+
 ### 3rd party purchasable items
 
-None beyond the user-provided items listed above.
+None. All core components are included in the kit.
 
 ## Set Up Your Development Environment
 
@@ -78,13 +79,13 @@ No device-specific IDE is required to run AWS IoT Greengrass. You will need:
 
 ### Assemble the kit
 
-1. Attach the M.2 base HAT to the Raspberry Pi 5 40-pin header and PCIe FPC connector, following the assembly guide included with the kit.
-2. Install the DEEPX DX-M1 M.2 module into the base HAT's M.2 slot and secure it.
-3. Attach active cooling to the Raspberry Pi 5.
-4. Insert a microSD card (or NVMe SSD) prepared with Raspberry Pi OS (see next section).
+1. Attach the MAKEROBO M.2 HAT to the Raspberry Pi 5 using the included standoffs and connect the PCIe FPC cable, following the assembly guide included with the kit.
+2. Install the DEEPX DX-M1 M.2 module into the HAT's M.2 slot and secure it with the provided screw.
+3. Attach the included active cooler to the Raspberry Pi 5.
+4. Insert the included microSD card prepared with Raspberry Pi OS (see next section).
 5. Connect an Ethernet cable to the Raspberry Pi 5 LAN port.
 6. (Initial setup) Connect a monitor via micro-HDMI and a USB keyboard, or plan to use SSH.
-7. Connect the official 27 W USB-C power supply to boot.
+7. Connect the included USB power adapter to boot.
 
 Assembled kit (top view — DX-M1 module on the M.2 base HAT over the Raspberry Pi 5):
 
@@ -96,7 +97,7 @@ Side view (layered stack; Raspberry Pi 5 I/O accessible along the lower edge):
 
 ### Flash Raspberry Pi OS
 
-Using Raspberry Pi Imager on your host computer, flash **Raspberry Pi OS (64-bit)** to the microSD card or NVMe SSD. Create your user account during imaging or on first boot, and enable SSH if you plan to work remotely.
+Using Raspberry Pi Imager on your host computer, flash **Raspberry Pi OS (64-bit)** to the included microSD card (using the bundled card reader). Create your user account during imaging or on first boot, and enable SSH if you plan to work remotely.
 
 Verify internet connectivity on the device:
 
