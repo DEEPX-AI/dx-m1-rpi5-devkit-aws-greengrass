@@ -241,4 +241,4 @@ Follow [Deploy your component](https://docs.aws.amazon.com/greengrass/v2/develop
 
 For more information, see [Troubleshooting AWS IoT Greengrass V2](https://docs.aws.amazon.com/greengrass/v2/developerguide/troubleshooting.html).
 
-For device-specific support, contact DEEPX at tech_support@deepx.ai or visit https://deepx.ai/contact-us/technical-support/
+For technical questions, please ask in the DEEPX Developer Community: https://community.deepx.ai/c/support/5
